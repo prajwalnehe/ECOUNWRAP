@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EcoUnwrap</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    margin:0;
+    font-family:Arial,sans-serif;
+    scroll-behavior: smooth;
+    background:#f4fff6;
+    color:#222;
+  }
+
+  header {
+    background:url('https://thumbs.dreamstime.com/b/organic-cotton-bag-glass-jar-recycled-tableware-green-background-top-view-zero-waste-eco-friendly-plastic-free-concept-flat-154581142.jpg') center/cover no-repeat;
+    color:black;
+    padding:80px 20px;
+    text-align:center;
+    animation:fadeIn 2s ease;
+  }
+  header h1 {
+    font-size:3em;
+    margin-bottom:10px;
+    text-shadow:2px 2px 6px rgba(0,0,0,0.5);
+    animation:slideIn 2s ease;
+  }
+  header p { animation:fadeIn 3s ease; }
+
+  @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+  @keyframes slideIn { from {transform:translateY(-50px);opacity:0;} to {transform:translateY(0);opacity:1;} }
+
+  nav {
+    background:#006b3c;
+    padding:10px 20px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+  }
+  nav a {
+    color:white;
+    text-decoration:none;
+    margin:5px 12px;
+    font-weight:bold;
+    transition:0.3s;
+  }
+  nav a:hover { text-decoration:underline; color:#ffcc00; }
+
+  section { padding:60px 20px; max-width:1000px; margin:auto; border-radius:12px; }
+  section:nth-child(even) { background:#e6f7ff; }
+  h2 { color:#006b3c; margin-bottom:20px; text-align:center; }
+
+  .facts, .challenge-options, .ngo-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+  .fact, .box, .challenge, .ngo { background:#e9f7ef; padding:20px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.1); transition:transform 0.3s; }
+  .fact:hover { transform:scale(1.05); }
+  .box { background:rgba(255,255,255,0.9); text-align:center; margin-bottom:30px; animation:fadeIn 2s ease; }
+
+  input, button, select {
+    padding:10px; margin:8px; border-radius:6px; border:1px solid #ccc;
+  }
+  button {
+    background:#ff6600; color:white; border:none; cursor:pointer; transition:0.3s;
+  }
+  button:hover { background:#cc5200; transform:scale(1.05); }
+
+  .counter { font-weight:bold; color:#d9534f; margin-bottom:15px; }
+  .tip { display:none; font-size:1.1em; padding:15px; }
+  .tip.active { display:block; }
+
+  iframe { border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.2); }
+
+  .infoTab { display:none; text-align:left; margin-top:20px; }
+
+  /* Section animation */
+  .fade-in { opacity:0; animation:fadeSection 1s forwards; }
+  @keyframes fadeSection { to { opacity:1; } }
+</style>
+</head>
+<body>
+
+<header id="home">
+  <h1>EcoUnwrap</h1>
+  <h2>Break Free From Plastic</h2>
+  <p>Together, we can reduce plastic waste and protect our planet 🌍</p>
+</header>
+
+<nav>
+  <a href="#home">Home</a>
+  <a href="#awareness">Awareness</a>
+  
+  <a href="#calculator">Calculator</a>
+  <a href="#tips">Tips</a>
+  <a href="#challenge">Challenge Hub</a>
+  <a href="#map">Plastic Map</a>
+  <a href="#ngo">NGOs & Colonies</a>
+  <a href="#infoTabs">Info Tabs</a>
+</nav>
+
+<!-- Awareness -->
+<section id="awareness" class="fade-in" style="background:url('https://images.unsplash.com/photo-1581090700227-8a2b6f5d8443') center/cover no-repeat; color:black; text-shadow:2px 2px 6px rgba(0,0,0,0.7);">
+  <h2>1. Awareness – Know the Problem</h2>
+  <div class="facts">
+    <div class="fact">♻ A single plastic bottle takes <b>450 years</b> to decompose.</div>
+    <div class="fact">🐢 Over <b>1 million marine animals</b> die each year from plastic waste.</div>
+    <div class="fact">🌍 By 2050, there could be more plastic than fish in the ocean.</div>
+    <div class="fact">🌱 Choose nature over plastic for a <b>greener future.</b></div>
+  </div>
+</section>
+
+
+<!-- Calculator -->
+<section id="calculator" class="fade-in" style="background:url('https://images.unsplash.com/photo-1594653448926-5bce8f1a5b4c') center/cover no-repeat; color:black;">
+  <h2>3. Plastic Footprint Calculator 🧮</h2>
+  <div class="box">
+    <label>Bottled Water: <input type="number" id="bottles" value="0"></label><br>
+    <label>Plastic Bags: <input type="number" id="bags" value="0"></label><br>
+    <label>Plastic Straws: <input type="number" id="straws" value="0"></label><br>
+    <button onclick="calculateFootprint()">Calculate My Plastic</button>
+    <p id="footprintResult"></p>
+  </div>
+</section>
+
+<!-- Tips -->
+<section id="tips" class="fade-in" style="background:url('https://images.unsplash.com/photo-1581579345390-32c1a0d9b93d') center/cover no-repeat; color:black;">
+  <h2>4. Plastic-Free Tips 💡</h2>
+  <div class="box">
+    <div id="tipsContainer">
+      <div class="tip active">🌱 Carry a reusable water bottle.</div>
+      <div class="tip">🛍 Keep a cloth bag for shopping.</div>
+      <div class="tip">🥤 Say NO to plastic straws.</div>
+      <div class="tip">🍱 Bring your own container for takeout.</div>
+      <div class="tip">🧴 Refill soaps/detergents instead of buying new bottles.</div>
+      <div class="tip">🧻 Eco-Friendly Wrapping – Use cloth, paper, or leaves instead of plastic wraps.</div>
+      <div class="tip">🔄 Recycle & Reuse – Properly recycle plastics you can’t avoid and repurpose items creatively.</div>
+    </div>
+    <button onclick="prevTip()">⬅ Prev</button>
+    <button onclick="nextTip()">Next ➡</button>
+  </div>
+</section>
+
+<!-- Challenge Hub -->
+<section id="challenges">
+  <h2>🌍 Plastic-Free Challenges</h2>
+  <p>Join global challenges to reduce your plastic use:</p>
+  <ul>
+    <li>
+      <strong>Ecochallenge Plastic-Free Hub:</strong> Join teams, track progress,growth and commit to daily sustainable actions. 
+      <a class="button" href="https://tcplasticfree.ecochallenge.org/?utm_source=chatgpt.com" target="_blank">Visit Ecochallenge</a>
+    </li>
+    <li>
+      <strong>Plastic Free July:</strong> Refuse single-use plastics in July and beyond, with resources and community support. 
+      <a class="button" href="https://www.plasticfreejuly.org/?utm_source=chatgpt.com" target="_blank">Visit Plastic Free July</a>
+    </li>
+    <li>
+      <strong>Plastic Free Challenge:</strong> Document your journey to living without single-use plastics and inspire others. 
+      <a class="button" href="https://www.plasticfreechallenge.org/?utm_source=chatgpt.com" target="_blank">Visit Plastic Free Challenge</a>
+    </li>
+    <li>
+      <strong>Plastic Detox Challenge by EARTHDAY.ORG:</strong> Make small sustainable changes and share your swaps. 
+      <a class="button" href="https://www.earthday.org/plastic-detox-challenge/?utm_source=chatgpt.com" target="_blank">Visit Earth Day Challenge</a>
+    </li>
+  </ul>
+
+  <style>
+    #challenges {
+      padding: 20px 10%;
+      background-color: #f0f7f4;
+    }
+    #challenges h2 {
+      color: #2d6a4f;
+    }
+    #challenges ul {
+      list-style: disc inside;
+    }
+    #challenges li {
+      margin-bottom: 15px;
+    }
+    #challenges a.button {
+      display: inline-block;
+      background-color: #2d6a4f;
+      color: white;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-left: 10px;
+    }
+    #challenges a.button:hover {
+      background-color: #1b4332;
+    }
+  </style>
+</section>
+
+<!-- Plastic Map -->
+<section id="map" class="fade-in" style="background:#e6f7ff;">
+  <h2>6. Plastic Map – Track Local Waste 🗺</h2>
+  <div class="box">
+    <iframe
+     src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d126743.27142252305!2d77.2090!3d28.6139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1692737400000!5m2!1sen!2sin"  width="100%" height="400" style ="border:0;" allowfullscreen="" loading="lazy">
+    </iframe>
+    <p>Users can view plastic waste hotspots and nearby clean-up events.</p>
+  </div>
+</section>
+
+<!-- NGO & Colonies -->
+<section id="ngo" class="fade-in" style="background:url('https://images.unsplash.com/photo-1581579181273-50f7e23455e6') center/cover no-repeat; color:black; text-shadow:2px 2px 6px rgba(0,0,0,0.7);">
+  <h2>7. NGOs & Colony Awareness 🏘</h2>
+  <div class="box">
+    <ul style="text-align:left;">
+      <li>🧱 Making eco-bricks from plastic bottles</li>
+      <li>🎨 Using plastic waste for art & decoration</li>
+      <li>🏗 Recycling into building materials</li>
+      <li>👩‍🏫 Awareness campaigns in schools & colonies</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Info Tabs -->
+<section id="infoTabs" class="fade-in" style="background:#f0f8ff;">
+  <h2>8. Learn More About Plastic Waste 📚</h2>
+  <div class="box">
+    <div style="display:flex; justify-content:center; margin-bottom:20px;">
+      <button onclick="showTab('types')">Types of Plastic</button>
+      <button onclick="showTab('facts')">Pollution Facts</button>
+      <button onclick="showTab('reduce')">Ways to Reduce</button>
+      <button onclick="showTab('solutions and alternatives')">Solutions and Alternatives</button>
+    </div>
+    <div id="types" class="infoTab">
+      <h3>Types of Plastic</h3>
+      <img src="https://www.shaktiplasticinds.com/wp-content/uploads/2021/07/TSPI-IG2-What-are-different-types-of-waste-Insta.png" height="600"   width="900">
+        <p>   Types of plastic pollution can be categorized by size as microplastics, macroplastics, and megaplastics, or by their origin and nature as single-use plastics, durable consumer products, tire wear particles, microfibers from textiles, ** Abandoned, Lost, or otherwise Discarded Fishing Gear (ALDFG), and plastic additive pollution. Microplastics are less than 5mm, while macroplastics and megoplastics refer to larger items that often break down into smaller fragments. </p>
+ By Size
+
+    <p><h4>Microplastics:</p></h4> These are tiny plastic fragments (less than 5 mm) that can come from the breakdown of larger plastics, or be directly released from products like cosmetics, synthetic textiles, and tires. 
+
+<p><h4>Macroplastics:</p></h4> These are larger pieces of plastic waste, such as bottles, bags, and packaging, that litter the environment. 
+<p><h4>Megaplastics:</p></h4> These are the largest pieces of plastic debris. 
+
+By Origin and Nature
+
+    <p><h4>Single-Use Plastics:</p></h4>
+    These are items designed for a short lifespan, like plastic bags, straws, food packaging, and disposable cups, and are major contributors to pollution.
+
+ <p><h4>Durable Consumer Products:/p></h4>
+Items like footwear, furniture, and household goods are examples of durable plastics that contribute to pollution when discarded. <
+Tire Wear Particles:
+The friction of car tires on roads releases microplastic particles into the environment. 
+Microfibers:
+These are tiny plastic fibers shed from synthetic clothes during washing, which enter waterways and oceans. 
+Abandoned, Lost, or otherwise Discarded Fishing Gear (ALDFG):
+Fishing nets, lines, and other gear discarded at sea are a significant source of ocean plastic pollution. 
+Plastic Additives and Leachates:
+Chemicals used in plastics, such as phthalates (plasticizers) and Bisphenol A (BPA) (used in polycarbonate plastics), can leach into the environment, causing chemical pollution. 
+</p></h4>
+      <ul style="text-align:left;">
+        <li>PET – bottles, packaging</li>
+        <li>HDPE – milk jugs, detergent bottles</li>
+        <li>PVC – pipes, windows</li>
+        <li>LDPE – bags, film wraps</li>
+        <li>PP – food containers, caps</li>
+      </ul>
+    </div>
+    <div id="facts" class="infoTab">
+      <h3>Plastic Pollution Facts</h3>
+      <img src="https://pbs.twimg.com/media/De5qJ8LUEAA2Mgw.jpg" height="600"   width="900>
+      <ul style="text-align:left;">
+        <li>300+ million tons produced every year</li>
+        <li>Every minute, a truckload enters the ocean</li>
+        <li>Millions of marine animals die yearly</li>
+        <li>Most plastics take hundreds of years to degrade</li>
+      </ul>
+    </div>
+    <div id="reduce" class="infoTab">
+      <h3>Ways to Reduce Plastic</h3>
+       <img src="https://cdn.shopify.com/s/files/1/0035/9468/2435/files/ReelPaper_infographic_w800.png?v=1686673415" height="500"   width="900>
+      <ul style="text-align:left;">
+      <p><h3>To reduce plastic pollution, avoid single-use items by carrying reusable bags, water bottles, and coffee cups. Opt for products with minimal packaging, buy in bulk, and choose plastic-free alternatives like glass or bamboo. Properly recycle and clean plastics, and actively participate in community cleanups to remove existing litter. Additionally, spread awareness about the issue and support policies that promote plastic reduction and responsible waste management</p></h3>
+        <li>Use reusable bottles, bags, containers</li>
+        <li>Choose products with minimal packaging</li>
+        <li>Participate in clean-up drives</li>
+        <li>Recycle plastics responsibly</li>
+        <li>Educate your community</li>
+      </ul>
+    </div>
+  </div>
+   
+    
+</section>
+
+<script>
+  // Pledge
+  let pledgeCount = 0;
+  function addPledge() {
+    const input = document.getElementById("nameInput");
+    const text = input.value.trim();
+    if(text){
+      pledgeCount++;
+      document.getElementById("pledgeCount").textContent = pledgeCount;
+      const list = document.getElementById("pledgesList");
+      const item = document.createElement("p");
+      item.textContent = "✅ " + text;
+      list.appendChild(item);
+      input.value="";
+    } else alert("Enter pledge!");
+  }
+
+  // Calculator
+  function calculateFootprint(){
+    const bottles=parseInt(document.getElementById("bottles").value)||0;
+    const bags=parseInt(document.getElementById("bags").value)||0;
+    const straws=parseInt(document.getElementById("straws").value)||0;
+    const weekly=bottles*20 + bags*5 + straws*1;
+    const yearlyKg=(weekly*52)/1000;
+    document.getElementById("footprintResult").textContent="🌍 You generate about "+yearlyKg.toFixed(2)+" kg of plastic waste per year!";
+  }
+
+  // Tips
+  let currentTip=0;
+  const tips=document.querySelectorAll(".tip");
+  function showTip(index){
+    tips.forEach((tip)=>tip.classList.remove("active"));
+    tips[index].classList.add("active");
+  }
+  function prevTip(){ currentTip=(currentTip-1+tips.length)%tips.length; showTip(currentTip); }
+  function nextTip(){ currentTip=(currentTip+1)%tips.length; showTip(currentTip); }
+
+  // Challenge Hub
+  function joinChallenge(){
+    const days=document.getElementById("challengeSelect").value;
+    document.getElementById("challengeResult").textContent="🎉 You joined the "+days+"-day Plastic-Free Challenge! Log daily progress to earn badges.";
+  }
+
+  // Info Tabs
+  function showTab(tabId){
+    const tabs=document.querySelectorAll(".infoTab");
+    tabs.forEach(tab=>tab.style.display="none");
+    document.getElementById(tabId).style.display="block";
+  }
+</script>
+
+</body>
+</html>
